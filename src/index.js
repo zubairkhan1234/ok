@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import reactDOM from "react-dom";
-
+import css from  "./index.css" 
 
 function App() {
-  
+
   const [Data, setData] = useState([])
   React.useEffect(() => {
     const userData = localStorage.getItem('Data')
@@ -14,42 +14,48 @@ function App() {
 
   React.useEffect(() => {
     localStorage.setItem('Data', JSON.stringify(Data))
-  })  
+  })
   function TodoApp(e) {
     e.preventDefault()
 
     var todoText = document.getElementById('TodoText').value
-    // console.log(todoText)
+    if(todoText === ""){
+      alert("some text ")
+    }
 
     setData((previouseVlaue) => {
       return previouseVlaue.concat(todoText)
+      
     })
-    console.log()
     // var text = document.createElement('li')
     // text.innerHTML = todoText
     // document.getElementById('ListPost').innerHTML = text
   }
 
-  const remove = () => {
-
-  }
+  const remove = (index) => {
+    let todo = [...Data]
+    todo.splice(index, 1)
+    setData(todo)
+  };
 
 
 
 
 
   return (
-    <div>
-      <form onSubmit={TodoApp}>
-        <input type="text" id="TodoText" /><button > Add </button>
+    <div  className="todoList">
+      <form onSubmit={TodoApp} className="form">
+      <h1>ToDo App</h1>
+        <input type="text" id="TodoText" placeholder="Type......." /><button > Add </button>
       </form>
 
       {Data.map((value, index) => {
 
-        console.log(value, index)
+        
         return (
-          <div key={index}>
-            <span>{value}</span><button onClick={remove}>Delete</button>
+          <div className="flex" key={index} >
+            <p className="listText">{value}</p><i className="fas fa-trash-alt button" onClick={()=> remove(index)}></i>
+            
           </div>
         )
       })}
